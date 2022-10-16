@@ -16,7 +16,7 @@ has field 'mocked_subs' => (
 );
 
 has field 'object' => (
-	lazy => 'setup',
+	lazy => 1,
 	clearer => -hidden
 );
 
@@ -29,7 +29,7 @@ sub _no_method
 	croak "method $method_name was not mocked!";
 }
 
-sub setup
+sub _build_object
 {
 	my ($self) = @_;
 

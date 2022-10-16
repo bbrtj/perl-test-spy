@@ -35,5 +35,17 @@ subtest 'testing context with a method' => sub {
 	is_deeply $spy->called_with, [qw(a b c)], 'context ok';
 };
 
+subtest 'testing no context' => sub {
+	my $spy = Test::Spy->new;
+
+	my $result = eval {
+		$spy->call_history;
+		1;
+	};
+
+	ok !$result, 'call_history died ok';
+	like $@, qr/no context was set/, 'call_history error message ok';
+};
+
 done_testing;
 

@@ -13,7 +13,7 @@ subtest 'testing context value' => sub {
 	ok $spy->has_context, 'has context ok';
 
 	$spy->clear_context;
-	is $spy->context, undef, 'cleared context ok';
+	ok !$spy->has_context, 'cleared context ok';
 };
 
 subtest 'testing context in constructor' => sub {

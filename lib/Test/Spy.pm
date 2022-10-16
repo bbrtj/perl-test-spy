@@ -68,14 +68,17 @@ sub method
 		// $self->_no_method($method_name);
 }
 
-around _get_context => sub {
-	my ($orig, $self, @args) = @_;
+sub call_history
+{
+	my ($self) = @_;
 
-	my $context_method = $self->$orig(@args);
+	my $context = $self->context;
+	croak 'no context was set in ' . ref $self
+		unless $self->has_context && $context;
 
-	return $self->mocked_subs->{$context_method}
-		// $self->_no_method($context_method);
-};
+	return $self->mocked_subs->{$context}->call_history
+		// $self->_no_method($context);
+}
 
 1;
 

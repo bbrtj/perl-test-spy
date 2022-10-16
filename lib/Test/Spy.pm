@@ -105,3 +105,5 @@ sub call_history
 
 1;
 
+# ABSTRACT: build mocked interfaces and examine call data easily
+

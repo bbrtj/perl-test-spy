@@ -236,7 +236,7 @@ Clears all call and iterator data B<from the method>.
 
 =head1 SEE ALSO
 
-=item L<Test::MockObject>
+L<Test::MockObject>
 
 =head1 AUTHOR
 

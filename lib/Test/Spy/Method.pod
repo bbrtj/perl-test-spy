@@ -62,5 +62,5 @@ L<Test::Spy/context>.
 
 =head1 SEE ALSO
 
-=item L<Test::Spy>
+L<Test::Spy>
 

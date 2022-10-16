@@ -11,7 +11,7 @@ use Carp qw(croak);
 
 use Test::Spy::Method;
 
-has field 'mocked_subs' => (
+has field '_mocked_subs' => (
 	default => sub { {} },
 );
 
@@ -33,11 +33,11 @@ sub _build_object
 {
 	my ($self) = @_;
 
-	my %methods = %{$self->mocked_subs};
+	my %methods = %{$self->_mocked_subs};
 	my %init_hash;
 
 	for my $method_name (keys %methods) {
-		my $method = $self->mocked_subs->{$method_name};
+		my $method = $self->_mocked_subs->{$method_name};
 		$init_hash{$method_name} = sub {
 			return $method->_called(@_);
 		};
@@ -51,7 +51,7 @@ sub add_method
 	my ($self, $method_name, @returns) = @_;
 
 	$self->_clear_object;
-	my $method = $self->mocked_subs->{$method_name} = Test::Spy::Method->new(method_name => $method_name);
+	my $method = $self->_mocked_subs->{$method_name} = Test::Spy::Method->new(method_name => $method_name);
 
 	if (@returns) {
 		$method->should_return(@returns);
@@ -64,7 +64,7 @@ sub method
 {
 	my ($self, $method_name) = @_;
 
-	return $self->mocked_subs->{$method_name}
+	return $self->_mocked_subs->{$method_name}
 		// $self->_no_method($method_name);
 }
 
@@ -76,7 +76,7 @@ sub call_history
 	croak 'no context was set in ' . ref $self
 		unless $self->has_context && $context;
 
-	return $self->mocked_subs->{$context}->call_history
+	return $self->_mocked_subs->{$context}->call_history
 		// $self->_no_method($context);
 }
 

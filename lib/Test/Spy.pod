@@ -38,6 +38,8 @@ verified on a per-method basis after the calls have been made.
 This module will not replace methods in packages for you. It requires you to
 inject the generated object into your code with dependency injection.
 
+B<Beta quality>: interface is not yet stable before version 1.000.
+
 =head2 Properties
 
 =head3 interface

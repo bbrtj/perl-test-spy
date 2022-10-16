@@ -26,6 +26,5 @@ subtest 'testing mocking a method' => sub {
 	can_ok $object, 'test';
 };
 
-
 done_testing;
 

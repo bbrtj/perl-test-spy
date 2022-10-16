@@ -20,7 +20,7 @@ has field '_call_iterator' => (
 
 sub _increment_call_iterator
 {
-	my ($self, $count)  = @_;
+	my ($self, $count) = @_;
 	$count //= 1;
 
 	$self->_set_call_iterator($self->_call_iterator + $count);

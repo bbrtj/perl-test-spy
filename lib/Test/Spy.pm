@@ -11,6 +11,15 @@ use Carp qw(croak);
 
 use Test::Spy::Method;
 
+has param 'interface' => (
+	isa => sub {
+		my @allowed = qw(strict lax warn);
+		croak "interface can be any of: @allowed"
+			unless grep { $_[0] eq $_ } @allowed;
+	},
+	default => sub { 'strict' }
+);
+
 has field '_mocked_subs' => (
 	default => sub { {} },
 );
@@ -40,6 +49,20 @@ sub _build_object
 		my $method = $self->_mocked_subs->{$method_name};
 		$init_hash{$method_name} = sub {
 			return $method->_called(@_);
+		};
+	}
+
+	my $interface = $self->interface;
+	if ($interface ne 'strict') {
+		$init_hash{AUTOLOAD} = sub {
+			our $AUTOLOAD;
+			my $method = $AUTOLOAD;
+			$method =~ m/(\w+)$/;
+
+			warn "method '$1' was called on Test::Spy->object"
+				if $interface eq 'warn';
+
+			return undef;
 		};
 	}
 

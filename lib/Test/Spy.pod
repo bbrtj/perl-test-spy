@@ -40,6 +40,22 @@ inject the generated object into your code with dependency injection.
 
 =head2 Properties
 
+=head3 interface
+
+Strictness of the object interface. Can be any of:
+
+=over
+
+=item * C<'strict'> (default) - methods which were not mocked don't exist (exception)
+
+=item * C<'lax'> - non-mocked methods are autoloaded and return C<undef>
+
+=item * C<'warn'> - same as C<'lax'>, but a warning is issued
+
+=back
+
+I<optional on the constructor with name:> C<interface>
+
 =head3 object
 
 The actual object with mocked interface. Its gets cached after generation, so

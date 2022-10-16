@@ -65,8 +65,7 @@ sub called_with
 {
 	my ($self) = @_;
 
-	return $self->call_history->[$self->_call_iterator]
-		// croak 'call history for ' . $self->method_name . ' exhausted!';
+	return $self->call_history->[$self->_call_iterator];
 }
 
 sub first_called_with

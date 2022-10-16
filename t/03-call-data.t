@@ -60,14 +60,11 @@ subtest 'testing call history iterators' => sub {
 
 	is_deeply $method->next_called_with, [5, $spy], 'call 5 ok';
 	is_deeply $method->last_called_with, [5, $spy], 'call 5 ok (last)';
-
-	eval { $method->next_called_with };
-	like $@, qr/call history/, 'out of calls ok';
+	is $method->next_called_with, undef, 'out of calls ok';
 
 	$method->clear;
 
-	eval { $method->first_called_with };
-	like $@, qr/call history/, 'out of calls ok (cleared)';
+	is $method->next_called_with, undef, 'out of calls ok (cleared)';
 };
 
 subtest 'testing call history iterators (edge cases)' => sub {

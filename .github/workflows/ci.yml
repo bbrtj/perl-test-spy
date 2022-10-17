@@ -37,6 +37,7 @@ jobs:
       run: |
         dzil authordeps --missing | cpanm --notest
         dzil listdeps --missing | cpanm --notest
+        cpanm --notest Test::Pod
 
     - name: Run tests
       run: |

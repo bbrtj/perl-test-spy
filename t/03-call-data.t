@@ -24,13 +24,19 @@ subtest 'testing was_called' => sub {
 	my $spy = Test::Spy->new;
 	my $method = $spy->add_method('meth');
 
+	ok $method->wasnt_called, 'no calls - was_called ok';
+	ok !$method->was_called, 'no calls - was_called 2 ok';
+	ok !$method->was_called_once, 'no calls - was_called_once ok';
+	ok !$method->was_called(2), 'no calls - was_called 3 ok';
+	ok $method->was_called(0), 'no calls - was_called 4 ok';
+
 	$spy->object->meth;
 
-	ok $method->was_called, 'was_called ok';
-	ok $method->was_called(1), 'was_called 2 ok';
-	ok $method->was_called_once, 'was_called_once ok';
-	ok !$method->was_called(2), 'was_called 3 ok';
-	ok !$method->was_called(0), 'was_called 4 ok';
+	ok $method->was_called, 'one call - was_called ok';
+	ok $method->was_called(1), 'one call - was_called 2 ok';
+	ok $method->was_called_once, 'one call - was_called_once ok';
+	ok !$method->was_called(2), 'one call - was_called 3 ok';
+	ok !$method->was_called(0), 'one call - was_called 4 ok';
 
 	$spy->object->meth;
 

@@ -77,6 +77,13 @@ sub was_called
 	return $self->called_times > 0;
 }
 
+sub wasnt_called
+{
+	my ($self) = @_;
+
+	return $self->was_called(0);
+}
+
 sub was_called_once
 {
 	my ($self) = @_;

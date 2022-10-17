@@ -160,6 +160,10 @@ If passed an argument, returns whether the method was called B<exactly> as many 
 	$spy->was_called(2); # true
 	$spy->was_called(3); # false
 
+=head3 wasnt_called
+
+A shortcut for C<< $spy->was_called(0) >> - see above.
+
 =head3 was_called_once
 
 A shortcut for C<< $spy->was_called(1) >> - see above.

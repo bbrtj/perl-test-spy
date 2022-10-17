@@ -29,7 +29,12 @@ has field 'object' => (
 	clearer => -hidden
 );
 
-with qw(Test::Spy::Facade);
+has option 'context' => (
+	writer => 1,
+	clearer => 1,
+);
+
+with qw(Test::Spy::Interface);
 
 sub _no_method
 {

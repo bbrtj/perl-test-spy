@@ -9,6 +9,7 @@ use Mooish::AttributeBuilder;
 
 requires qw(
 	call_history
+	_clear_call_history
 );
 
 has field '_call_iterator' => (

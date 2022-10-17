@@ -103,6 +103,13 @@ sub call_history
 		// $self->_no_method($context);
 }
 
+sub _clear_call_history
+{
+	my ($self) = @_;
+
+	return $self->_mocked_subs->{$self->context}->_clear_call_history;
+}
+
 1;
 
 # ABSTRACT: build mocked interfaces and examine call data easily

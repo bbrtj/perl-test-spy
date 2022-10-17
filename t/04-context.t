@@ -47,5 +47,20 @@ subtest 'testing no context' => sub {
 	like $@, qr/no context was set/, 'call_history error message ok';
 };
 
+subtest 'testing clear context method' => sub {
+	my $spy = Test::Spy->new;
+
+	$spy->add_method('meth');
+	$spy->set_context('meth');
+
+	$spy->object->meth;
+
+	ok $spy->was_called_once, 'call history 1 ok';
+
+	$spy->clear;
+
+	ok $spy->was_called(0), 'call history 2 ok';
+};
+
 done_testing;
 

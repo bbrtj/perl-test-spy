@@ -117,6 +117,11 @@ C<$name>.
 
 Throws an exception if there is no such method.
 
+=head3 clear_all
+
+Calls C<< ->clear >> on all registered methods and C<< ->clear_context >>. Can
+be used to run a test again without re-creating the spy.
+
 =head2 Call history methods
 
 These methods are also found in L<Test::Spy::Method>'s interface. When called

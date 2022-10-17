@@ -62,5 +62,22 @@ subtest 'testing clear context method' => sub {
 	ok $spy->was_called(0), 'call history 2 ok';
 };
 
+subtest 'testing clearing with clear_all' => sub {
+	my $spy = Test::Spy->new;
+	my $method = $spy->add_method('test');
+	my $method2 = $spy->add_method('test2');
+
+	$spy->object->test;
+	$spy->object->test;
+	$spy->object->test2;
+	$spy->set_context('test');
+	$spy->clear_all;
+
+	ok $method->wasnt_called, 'method 1 ok';
+	ok $method2->wasnt_called, 'method 2 ok';
+	ok !$spy->has_context, 'context ok';
+};
+
+
 done_testing;
 

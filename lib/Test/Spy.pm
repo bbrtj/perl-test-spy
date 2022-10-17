@@ -46,7 +46,7 @@ sub _build_object
 	my %init_hash;
 
 	for my $method_name (keys %methods) {
-		my $method = $self->_mocked_subs->{$method_name};
+		my $method = $methods{$method_name};
 		$init_hash{$method_name} = sub {
 			return $method->_called(@_);
 		};
@@ -89,6 +89,20 @@ sub method
 
 	return $self->_mocked_subs->{$method_name}
 		// $self->_no_method($method_name);
+}
+
+sub clear_all
+{
+	my ($self) = @_;
+
+	$self->clear_context;
+
+	my %methods = %{$self->_mocked_subs};
+	for my $method_name (keys %methods) {
+		$methods{$method_name}->clear;
+	}
+
+	return;
 }
 
 sub call_history

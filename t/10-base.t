@@ -20,7 +20,7 @@ use Test::Spy;
 }
 
 subtest 'testing observers' => sub {
-	my $spy = Test::Spy->new(parent => MockTest->new);
+	my $spy = Test::Spy->new(base => MockTest->new);
 
 	$spy->add_observer('mock_deep');
 
@@ -34,7 +34,7 @@ subtest 'testing observers' => sub {
 };
 
 subtest 'testing methods' => sub {
-	my $spy = Test::Spy->new(parent => MockTest->new);
+	my $spy = Test::Spy->new(base => MockTest->new);
 
 	$spy->add_method('mock_deep', 'mocked');
 
@@ -48,7 +48,7 @@ subtest 'testing methods' => sub {
 };
 
 subtest 'testing Test::Spy mocking Test::Spy' => sub {
-	my $spy = Test::Spy->new(parent => 'Test::Spy');
+	my $spy = Test::Spy->new(base => 'Test::Spy');
 
 	$spy->add_method('add_method', 'mocked');
 

@@ -17,7 +17,7 @@ sub can
 
 	return undef
 		unless $self->{__spy}->_mocked_subs->{$name}
-		|| ($self->{__parent} && $self->{__parent}->can($name));
+		|| ($self->{__base} && $self->{__base}->can($name));
 
 	return sub { shift->$name(@_) };
 }
@@ -30,7 +30,7 @@ sub isa
 		if $self->SUPER::isa($name);
 
 	return !!1
-		if $self->{__parent} && $self->{__parent}->isa($name);
+		if $self->{__base} && $self->{__base}->isa($name);
 
 	return !!0;
 }
@@ -40,7 +40,7 @@ sub DOES
 	my ($self, $name) = @_;
 
 	return !!1
-		if $self->{__parent} && $self->{__parent}->DOES($name);
+		if $self->{__base} && $self->{__base}->DOES($name);
 
 	return !!0;
 }
@@ -62,7 +62,7 @@ sub AUTOLOAD
 		}
 	}
 
-	if ($self->{__parent} && (my $sref = $self->{__parent}->can($method))) {
+	if ($self->{__base} && (my $sref = $self->{__base}->can($method))) {
 		return $sref->($self, @args);
 	}
 

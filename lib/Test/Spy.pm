@@ -9,6 +9,7 @@ use Mooish::AttributeBuilder;
 use Carp qw(croak);
 
 use Test::Spy::Method;
+use Test::Spy::Observer;
 use Test::Spy::Object;
 
 has param 'interface' => (
@@ -76,6 +77,13 @@ sub add_method
 	}
 
 	return $method;
+}
+
+sub add_observer
+{
+	my ($self, $method_name) = @_;
+
+	return $self->_mocked_subs->{$method_name} = Test::Spy::Observer->new(method_name => $method_name);
 }
 
 sub method

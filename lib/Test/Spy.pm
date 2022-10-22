@@ -35,7 +35,8 @@ has option 'context' => (
 	clearer => 1,
 );
 
-has option 'parent' => (
+has option 'base' => (
+	writer => 1,
 	trigger => '_clear_object',
 );
 
@@ -55,13 +56,13 @@ sub _build_object
 	my %methods = %{$self->_mocked_subs};
 	my %init_hash;
 
-	my $parent = $self->has_parent
-		? ref $self->parent ? $self->parent : $self->parent->new
+	my $base = $self->has_base
+		? ref $self->base ? $self->base : $self->base->new
 		: undef;
 
 	return Test::Spy::Object->_new(
-		%{$parent // {}},
-		__parent => $parent,
+		%{$base // {}},
+		__base => $base,
 		__spy => $self,
 	);
 }

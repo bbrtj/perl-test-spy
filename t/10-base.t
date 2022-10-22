@@ -55,8 +55,14 @@ subtest 'testing Test::Spy mocking Test::Spy' => sub {
 	my $obj = $spy->object;
 
 	isa_ok $obj, 'Test::Spy';
+	ok !$obj->isa('Moo'), 'invalid isa ok';
+
 	ok $obj->DOES('Test::Spy::Interface'), 'DOES ok';
+	ok !$obj->DOES('Test::Spy::Method'), 'invalid DOES ok';
+
 	can_ok $obj, 'add_method', 'method';
+	ok !$obj->can('doesnt_exist'), 'non existent method can ok';
+
 	is $obj->add_method('test'), 'mocked', 'object method mocked ok';
 
 	my $result = eval {

@@ -6,10 +6,10 @@ use warnings;
 
 use Moo;
 use Mooish::AttributeBuilder;
-use Util::H2O;
 use Carp qw(croak);
 
 use Test::Spy::Method;
+use Test::Spy::Object;
 
 has param 'interface' => (
 	isa => sub {
@@ -34,6 +34,10 @@ has option 'context' => (
 	clearer => 1,
 );
 
+has option 'parent' => (
+	trigger => '_clear_object',
+);
+
 with qw(Test::Spy::Interface);
 
 sub _no_method
@@ -50,35 +54,21 @@ sub _build_object
 	my %methods = %{$self->_mocked_subs};
 	my %init_hash;
 
-	for my $method_name (keys %methods) {
-		my $method = $methods{$method_name};
-		$init_hash{$method_name} = sub {
-			return $method->_called(@_);
-		};
-	}
+	my $parent = $self->has_parent
+		? ref $self->parent ? $self->parent : $self->parent->new
+		: undef;
 
-	my $interface = $self->interface;
-	if ($interface ne 'strict') {
-		$init_hash{AUTOLOAD} = sub {
-			our $AUTOLOAD;
-			my $method = $AUTOLOAD;
-			$method =~ m/(\w+)$/;
-
-			warn "method '$1' was called on Test::Spy->object"
-				if $interface eq 'warn';
-
-			return undef;
-		};
-	}
-
-	return h2o -meth, \%init_hash;
+	return Test::Spy::Object->_new(
+		%{$parent // {}},
+		__parent => $parent,
+		__spy => $self,
+	);
 }
 
 sub add_method
 {
 	my ($self, $method_name, @returns) = @_;
 
-	$self->_clear_object;
 	my $method = $self->_mocked_subs->{$method_name} = Test::Spy::Method->new(method_name => $method_name);
 
 	if (@returns) {

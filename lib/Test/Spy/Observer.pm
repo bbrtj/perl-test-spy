@@ -5,7 +5,7 @@ use strict;
 use warnings;
 
 use Moo;
-use Mooish::AttributeBuilder;
+use Mooish::AttributeBuilder -standard;
 use Carp qw(croak);
 
 has param 'method_name';

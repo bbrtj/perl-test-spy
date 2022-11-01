@@ -5,7 +5,7 @@ use strict;
 use warnings;
 
 use Moo::Role;
-use Mooish::AttributeBuilder;
+use Mooish::AttributeBuilder -standard;
 
 requires qw(
 	call_history

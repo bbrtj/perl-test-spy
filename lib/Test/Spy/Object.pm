@@ -32,7 +32,7 @@ sub isa
 	return !!1
 		if $self->{__base} && $self->{__base}->isa($name);
 
-	return !!0;
+	return $self->__imitates($name);
 }
 
 sub does
@@ -42,7 +42,7 @@ sub does
 	return !!1
 		if $self->{__base} && $self->{__base}->does($name);
 
-	return !!0;
+	return $self->__imitates($name);
 }
 
 sub DOES
@@ -52,7 +52,7 @@ sub DOES
 	return !!1
 		if $self->{__base} && $self->{__base}->DOES($name);
 
-	return !!0;
+	return $self->__imitates($name);
 }
 
 sub AUTOLOAD
@@ -87,7 +87,24 @@ sub AUTOLOAD
 	return undef;
 }
 
-sub _new
+sub __imitates
+{
+	my ($self, $name) = @_;
+
+	if ($self->{__spy}->has_imitates) {
+		my @imitates = $self->{__spy}->imitates;
+		@imitates = @{$imitates[0]}
+			if ref $imitates[0] eq 'ARRAY';
+
+		foreach my $type (@imitates) {
+			return !!1 if $type eq $name;
+		}
+	}
+
+	return !!0;
+}
+
+sub __new
 {
 	my ($class, %params) = @_;
 	my $self = \%params;

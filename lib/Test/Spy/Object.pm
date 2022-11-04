@@ -35,6 +35,16 @@ sub isa
 	return !!0;
 }
 
+sub does
+{
+	my ($self, $name) = @_;
+
+	return !!1
+		if $self->{__base} && $self->{__base}->does($name);
+
+	return !!0;
+}
+
 sub DOES
 {
 	my ($self, $name) = @_;
